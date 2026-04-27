@@ -7,45 +7,117 @@ import { ApiService } from './services/api.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <h2>Reportes del Sistema</h2>
-    
-    <div *ngIf="reporteCaja" class="card" style="background: #f0f9ff; border-color: #bae6fd;">
-      <h3 style="margin-top:0">Flujo de Caja (Hoy)</h3>
-      <div style="display: flex; gap: 2rem;">
+    <div class="reportes-page">
+
+      <div class="reportes-header">
         <div>
-          <label>Total Recaudado</label>
-          <span style="font-size: 1.5rem; font-weight: bold; color: #0369a1;">S/ {{ reporteCaja.totalRecaudado }}</span>
+          <h1>Reportes del Sistema</h1>
+          <p>
+            Consulta indicadores financieros, flujo de caja diario y deudas pendientes
+            consolidadas por socio para el control administrativo del mercado.
+          </p>
         </div>
-        <div>
-          <label>Pagos Procesados</label>
-          <span style="font-size: 1.5rem; font-weight: bold; color: #0369a1;">{{ reporteCaja.cantidadPagos }}</span>
+
+        <div class="reportes-status-pill">
+          Reportes activos
         </div>
       </div>
-    </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
-      <h3>Deudas Pendientes por Socio</h3>
-      <button class="btn btn-primary" (click)="exportarExcel()">
-        Descargar Excel
-      </button>
+      <div class="reportes-kpi-grid">
+        <div class="reporte-kpi-card green">
+          <span>Total recaudado hoy</span>
+          <strong>S/ {{ totalRecaudado() }}</strong>
+          <small>Flujo de caja diario</small>
+        </div>
+
+        <div class="reporte-kpi-card blue">
+          <span>Pagos procesados</span>
+          <strong>{{ pagosProcesados() }}</strong>
+          <small>Operaciones registradas</small>
+        </div>
+
+        <div class="reporte-kpi-card red">
+          <span>Total pendiente</span>
+          <strong>S/ {{ totalPendiente() }}</strong>
+          <small>Cuentas por cobrar</small>
+        </div>
+      </div>
+
+      <div class="reportes-main-grid">
+
+        <section class="reportes-table-card">
+          <div class="reportes-table-header">
+            <div>
+              <h2>Deudas pendientes por socio</h2>
+              <p>Consolidado de cuentas pendientes agrupadas por socio.</p>
+            </div>
+          </div>
+
+          <div class="reportes-table-wrapper">
+            <table>
+              <thead>
+              <tr>
+                <th>Socio</th>
+                <th>DNI</th>
+                <th style="text-align: right;">Total pendiente</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr *ngFor="let row of reporteDeudas">
+                <td>
+                  <div class="socio-report-cell">
+                    <strong>{{ row[0] }}</strong>
+                    <span>Socio responsable</span>
+                  </div>
+                </td>
+
+                <td>{{ row[1] }}</td>
+
+                <td class="reporte-deuda-monto">
+                  S/ {{ row[2] }}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+            <div class="reportes-empty" *ngIf="reporteDeudas.length === 0">
+              No hay deudas pendientes para mostrar.
+            </div>
+          </div>
+        </section>
+
+        <aside class="reportes-action-card">
+          <div class="reportes-action-header">
+            <h2>Exportación</h2>
+            <p>Descarga el reporte para sustento administrativo.</p>
+          </div>
+
+          <div class="reportes-action-body">
+            <div class="report-action-item">
+              <span>Tipo de reporte</span>
+              <strong>Deudas por socio</strong>
+            </div>
+
+            <div class="report-action-item">
+              <span>Formato</span>
+              <strong>Excel (.xlsx)</strong>
+            </div>
+
+            <div class="report-action-item">
+              <span>Registros incluidos</span>
+              <strong>{{ reporteDeudas.length }}</strong>
+            </div>
+
+            <button class="btn-primary" (click)="exportarExcel()">
+              Descargar Excel
+            </button>
+          </div>
+        </aside>
+
+      </div>
+
     </div>
-    
-    <table>
-      <thead>
-        <tr>
-          <th>Socio</th>
-          <th>DNI</th>
-          <th style="text-align: right;">Total Pendiente</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of reporteDeudas">
-          <td><strong>{{ row[0] }}</strong></td>
-          <td>{{ row[1] }}</td>
-          <td style="text-align: right; color: #ef4444; font-weight: 500;">S/ {{ row[2] }}</td>
-        </tr>
-      </tbody>
-    </table>
   `
 })
 export class ReportesComponent implements OnInit {
@@ -55,8 +127,27 @@ export class ReportesComponent implements OnInit {
   constructor(private api: ApiService) {}
 
   ngOnInit() {
-    this.api.getReporteCaja().subscribe((res: any) => this.reporteCaja = res);
-    this.api.getReporteDeudasSocio().subscribe((res: any[]) => this.reporteDeudas = res);
+    this.api.getReporteCaja().subscribe((res: any) => {
+      this.reporteCaja = res;
+    });
+
+    this.api.getReporteDeudasSocio().subscribe((res: any[]) => {
+      this.reporteDeudas = res;
+    });
+  }
+
+  totalRecaudado() {
+    return this.reporteCaja?.totalRecaudado || 0;
+  }
+
+  pagosProcesados() {
+    return this.reporteCaja?.cantidadPagos || 0;
+  }
+
+  totalPendiente() {
+    return this.reporteDeudas
+        .reduce((total, row) => total + Number(row[2] || 0), 0)
+        .toFixed(2);
   }
 
   exportarExcel() {
