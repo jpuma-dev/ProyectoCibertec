@@ -1,10 +1,8 @@
 package com.cibertec.proyecto.services;
 
-import com.cibertec.proyecto.entities.ConceptoDeuda;
-import com.cibertec.proyecto.entities.Puesto;
-import com.cibertec.proyecto.repositories.ConceptoDeudaRepository;
-import com.cibertec.proyecto.repositories.PuestoRepository;
 import com.cibertec.proyecto.dtos.DeudaDTO;
+import com.cibertec.proyecto.entities.*;
+import com.cibertec.proyecto.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,11 +21,12 @@ public class RecurrenciaService {
     private final PuestoRepository puestoRepository;
     private final DeudaService deudaService;
 
+    /** Genera cargos recurrentes el día 1 de cada mes a medianoche */
     @Scheduled(cron = "0 0 0 1 * ?")
     public void generarCargosRecurrentesMensuales() {
-        log.info("Iniciando generación de cargos recurrentes del mes: {}", LocalDate.now().getMonth());
-        
-        List<ConceptoDeuda> conceptosRecurrentes = conceptoRepository.findAll().stream()
+        log.info("Generando cargos recurrentes del mes: {}", LocalDate.now().getMonth());
+
+        List<ConceptoDeuda> recurrentes = conceptoRepository.findAll().stream()
                 .filter(ConceptoDeuda::isRecurrente)
                 .collect(Collectors.toList());
 
@@ -36,24 +35,21 @@ public class RecurrenciaService {
                 .collect(Collectors.toList());
 
         if (puestosConSocio.isEmpty()) {
-            log.warn("No hay puestos con socios asignados para generar cargos recurrentes.");
+            log.warn("No hay puestos con socios para generar cargos.");
             return;
         }
 
-        for (ConceptoDeuda concepto : conceptosRecurrentes) {
-            log.info("Generando cargos para el concepto: {}", concepto.getNombre());
-            
-            DeudaDTO dto = new DeudaDTO();
-            dto.setConceptoId(concepto.getId());
-            dto.setMonto(concepto.getMontoSugerido() != null ? concepto.getMontoSugerido() : 0.0);
-            dto.setFecha(LocalDate.now());
-            dto.setPuestoIds(puestosConSocio.stream().map(Puesto::getId).collect(Collectors.toList()));
-
+        for (ConceptoDeuda concepto : recurrentes) {
             try {
+                DeudaDTO dto = new DeudaDTO();
+                dto.setConceptoId(concepto.getId());
+                dto.setMonto(concepto.getMontoSugerido() != null ? concepto.getMontoSugerido() : 0.0);
+                dto.setFecha(LocalDate.now());
+                dto.setPuestoIds(puestosConSocio.stream().map(Puesto::getId).collect(Collectors.toList()));
                 deudaService.generarDeudasMasivas(dto);
-                log.info("Cargos generados exitosamente para concepto: {}", concepto.getNombre());
+                log.info("Cargos generados para: {}", concepto.getNombre());
             } catch (Exception e) {
-                log.error("Error al generar cargos recurrentes para concepto {}: {}", concepto.getNombre(), e.getMessage());
+                log.error("Error generando cargo para {}: {}", concepto.getNombre(), e.getMessage());
             }
         }
     }

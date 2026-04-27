@@ -12,13 +12,9 @@ import java.util.List;
 @Repository
 public interface PagoRepository extends JpaRepository<Pago, Long> {
 
-    List<Pago> findByFechaBetween(LocalDateTime inicio,
-                                  LocalDateTime fin);
+    List<Pago> findByFechaBetween(LocalDateTime inicio, LocalDateTime fin);
 
-    @Query("""
-                SELECT SUM(p.monto) FROM Pago p
-                WHERE p.fecha BETWEEN :inicio AND :fin
-            """)
+    @Query("SELECT SUM(p.monto) FROM Pago p WHERE p.fecha BETWEEN :inicio AND :fin")
     Double totalPagosEnRango(@Param("inicio") LocalDateTime inicio,
                              @Param("fin") LocalDateTime fin);
 }

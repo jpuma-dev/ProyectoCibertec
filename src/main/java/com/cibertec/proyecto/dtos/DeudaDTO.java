@@ -1,25 +1,25 @@
 package com.cibertec.proyecto.dtos;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import lombok.Data;
+import com.cibertec.proyecto.enums.EstadoDeuda;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DeudaDTO {
 
-    @Positive(message = "El monto debe ser mayor a 0")
     private Double monto;
+    private Double montoTotal;
 
-    private Double montoTotal; // Para la distribución masiva proporcional
-
-    @NotNull
+    @NotNull(message = "La fecha es obligatoria")
     private LocalDate fecha;
 
-    private List<Long> puestoIds;
-
-    @NotNull
+    @NotNull(message = "El concepto es obligatorio")
     private Long conceptoId;
+
+    private List<Long> puestoIds;
 }

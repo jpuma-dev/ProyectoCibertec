@@ -1,10 +1,16 @@
 package com.cibertec.proyecto.dtos;
 
-public record SocioResponseDTO(
-    Long id,
-    String nombre,
-    String apellido,
-    String dni,
-    String telefono,
-    String email
-) {}
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class SocioResponseDTO {
+    private Long id;
+    private String nombre;
+    private String apellido;
+    private String dni;
+    private String telefono;
+    private String email;
+}

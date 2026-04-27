@@ -1,12 +1,8 @@
 package com.cibertec.proyecto.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
 public class Pago {
 
     @Id
@@ -30,10 +24,11 @@ public class Pago {
     @Column(nullable = false)
     private LocalDateTime fecha;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String metodoPago;
 
-    @ManyToOne(optional = false)
+    @JsonIgnore
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "deuda_id")
     private Deuda deuda;
 }

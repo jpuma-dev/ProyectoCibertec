@@ -1,27 +1,30 @@
 package com.cibertec.proyecto.dtos;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
-public record SocioDTO(
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SocioDTO {
+
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
-    String nombre,
+    @Size(max = 100)
+    private String nombre;
 
     @NotBlank(message = "El apellido es obligatorio")
-    @Size(min = 3, max = 100, message = "El apellido debe tener entre 3 y 100 caracteres")
-    String apellido,
+    @Size(max = 100)
+    private String apellido;
 
     @NotBlank(message = "El DNI es obligatorio")
-    @Pattern(regexp = "\\d{8}", message = "El DNI debe tener exactamente 8 digitos")
-    String dni,
+    @Size(min = 8, max = 8, message = "El DNI debe tener exactamente 8 dígitos")
+    @Pattern(regexp = "\\d{8}", message = "El DNI solo debe contener números")
+    private String dni;
 
-    @NotBlank(message = "El telefono es obligatorio")
-    @Pattern(regexp = "9\\d{8}", message = "El telefono debe empezar con 9 y tener 9 digitos")
-    String telefono,
+    @Size(min = 9, max = 9, message = "El teléfono debe tener 9 dígitos")
+    @Pattern(regexp = "9\\d{8}", message = "El teléfono debe iniciar con 9")
+    private String telefono;
 
-    @Email(message = "El formato del email no es valido")
-    String email
-) {}
+    @Email(message = "El email no es válido")
+    private String email;
+}

@@ -12,10 +12,10 @@ import java.util.Optional;
 public interface SocioRepository extends JpaRepository<Socio, Long> {
 
     Optional<Socio> findByDni(String dni);
-
     boolean existsByDni(String dni);
-
     void deleteByDni(String dni);
 
-    Page<Socio> findByNombreContainingIgnoreCaseOrDniContaining(String nombre, String dni, Pageable pageable);
+    // Búsqueda por nombre o DNI (paginado)
+    Page<Socio> findByNombreContainingIgnoreCaseOrDniContaining(
+            String nombre, String dni, Pageable pageable);
 }

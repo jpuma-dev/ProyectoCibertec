@@ -1,9 +1,9 @@
 package com.cibertec.proyecto.controllers;
 
-import com.cibertec.proyecto.dtos.ApiResponse;
-import com.cibertec.proyecto.dtos.ConceptoDeudaDTO;
+import com.cibertec.proyecto.dtos.*;
 import com.cibertec.proyecto.entities.ConceptoDeuda;
 import com.cibertec.proyecto.services.ConceptoDeudaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConceptoDeudaController {
 
-    private final ConceptoDeudaService conceptoDeudaService;
+    private final ConceptoDeudaService service;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<ConceptoDeuda>> crear(@RequestBody ConceptoDeudaDTO dto) {
-        return ResponseEntity.ok(ApiResponse.success(conceptoDeudaService.crearConcepto(dto), "Concepto de deuda creado exitosamente"));
+    public ResponseEntity<ApiResponse<ConceptoDeuda>> crear(@Valid @RequestBody ConceptoDeudaDTO dto) {
+        return ResponseEntity.ok(ApiResponse.success(service.crearConcepto(dto), "Concepto creado"));
     }
 
     @GetMapping
-    public ResponseEntity<?> listar() {
-        java.util.List<ConceptoDeuda> lista = conceptoDeudaService.listarTodos();
-        // Enviamos un objeto que tiene el campo data que busca Angular
-        return ResponseEntity.ok(java.util.Map.of("data", lista));
+    public ResponseEntity<ApiResponse<List<ConceptoDeuda>>> listar() {
+        return ResponseEntity.ok(ApiResponse.success(service.listarTodos(), "Lista de conceptos obtenida"));
     }
 }

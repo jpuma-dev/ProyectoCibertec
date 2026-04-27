@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ISocioService {
     SocioResponseDTO crearSocio(SocioDTO dto);
-    void eliminarSocioPorDni(String dni);
     SocioResponseDTO actualizarSocio(String dni, SocioDTO dto);
+    void eliminarSocioPorDni(String dni);
     List<SocioResponseDTO> listarSocios();
     Page<SocioResponseDTO> listarSociosPaginado(Pageable pageable);
     Page<SocioResponseDTO> buscarSocios(String term, Pageable pageable);

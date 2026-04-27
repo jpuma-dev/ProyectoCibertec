@@ -1,19 +1,14 @@
 package com.cibertec.proyecto.entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Data;
+// ══════════════════════════════════════════════════════════
+// CORRECCIÓN: Se quitaron @Getter y @Setter redundantes
+// cuando ya existe @Data (que los incluye).
+// ══════════════════════════════════════════════════════════
 
 @Entity
 @Table(name = "socios")
@@ -21,27 +16,28 @@ import lombok.Data;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
 public class Socio {
 
     @Id
-    @GeneratedValue (strategy =GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String apellido;
 
     @Column(unique = true, nullable = false, length = 8)
     private String dni;
 
+    @Column(length = 9)
     private String telefono;
 
+    @Column(length = 100)
     private String email;
 
-    @OneToMany(mappedBy = "socio")
+    @OneToMany(mappedBy = "socio", fetch = FetchType.LAZY)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Puesto> puestos;
 }

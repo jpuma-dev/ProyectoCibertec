@@ -6,9 +6,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 @Service
@@ -18,59 +16,44 @@ public class ExcelReportService {
     private final DeudaRepository deudaRepository;
 
     public ByteArrayInputStream exportDeudasPorSocio() throws IOException {
-        String[] columns = {"Socio", "DNI", "Total Pendiente (S/)"};
-        List<Object[]> data = deudaRepository.reporteDeudasPendientesPorSocio();
-        return generarExcel("Deudas por Socio", columns, data);
+        return generarExcel("Deudas por Socio",
+                new String[]{"Socio", "DNI", "Total Pendiente (S/)"},
+                deudaRepository.reporteDeudasPendientesPorSocio());
     }
 
     public ByteArrayInputStream exportMorosidadDinamica(Long socioId, Long puestoId, Long conceptoId) throws IOException {
-        String[] columns = {"Socio", "DNI", "Puesto", "Concepto", "Monto", "Fecha"};
-        List<Object[]> data = deudaRepository.reporteMorosidadDinamico(socioId, puestoId, conceptoId);
-        return generarExcel("Reporte de Morosidad", columns, data);
+        return generarExcel("Reporte de Morosidad",
+                new String[]{"Socio", "DNI", "Puesto", "Concepto", "Monto", "Fecha"},
+                deudaRepository.reporteMorosidadDinamico(socioId, puestoId, conceptoId));
     }
 
-    private ByteArrayInputStream generarExcel(String sheetName, String[] columns, List<Object[]> data) throws IOException {
-        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            Sheet sheet = workbook.createSheet(sheetName);
-            CellStyle headerCellStyle = crearEstiloEncabezado(workbook);
+    private ByteArrayInputStream generarExcel(String sheetName, String[] cols, List<Object[]> data) throws IOException {
+        try (Workbook wb = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            Sheet sheet = wb.createSheet(sheetName);
+            CellStyle headerStyle = wb.createCellStyle();
+            Font font = wb.createFont();
+            font.setBold(true);
+            headerStyle.setFont(font);
 
-            // Crear encabezado
-            Row headerRow = sheet.createRow(0);
-            for (int col = 0; col < columns.length; col++) {
-                Cell cell = headerRow.createCell(col);
-                cell.setCellValue(columns[col]);
-                cell.setCellStyle(headerCellStyle);
+            Row header = sheet.createRow(0);
+            for (int i = 0; i < cols.length; i++) {
+                Cell c = header.createCell(i);
+                c.setCellValue(cols[i]);
+                c.setCellStyle(headerStyle);
             }
 
-            // Llenar datos
             int rowIdx = 1;
-            for (Object[] rowData : data) {
-                Row row = sheet.createRow(rowIdx++);
-                for (int col = 0; col < rowData.length; col++) {
-                    Object value = rowData[col];
-                    if (value instanceof Double) {
-                        row.createCell(col).setCellValue((Double) value);
-                    } else {
-                        row.createCell(col).setCellValue(String.valueOf(value != null ? value : ""));
-                    }
+            for (Object[] row : data) {
+                Row r = sheet.createRow(rowIdx++);
+                for (int i = 0; i < row.length; i++) {
+                    Object v = row[i];
+                    if (v instanceof Double d) r.createCell(i).setCellValue(d);
+                    else r.createCell(i).setCellValue(v != null ? v.toString() : "");
                 }
             }
-
-            // Auto ajustar
-            for (int i = 0; i < columns.length; i++) {
-                sheet.autoSizeColumn(i);
-            }
-
-            workbook.write(out);
+            for (int i = 0; i < cols.length; i++) sheet.autoSizeColumn(i);
+            wb.write(out);
             return new ByteArrayInputStream(out.toByteArray());
         }
-    }
-
-    private CellStyle crearEstiloEncabezado(Workbook workbook) {
-        CellStyle style = workbook.createCellStyle();
-        Font font = workbook.createFont();
-        font.setBold(true);
-        style.setFont(font);
-        return style;
     }
 }

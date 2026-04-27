@@ -4,9 +4,7 @@ import com.cibertec.proyecto.dtos.ApiResponse;
 import com.cibertec.proyecto.services.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -19,6 +17,7 @@ public class DashboardController {
 
     @GetMapping("/stats")
     public ResponseEntity<ApiResponse<Map<String, Object>>> getStats() {
-        return ResponseEntity.ok(ApiResponse.success(dashboardService.obtenerEstadisticas(), "Estadísticas del dashboard obtenidas"));
+        return ResponseEntity.ok(ApiResponse.success(
+                dashboardService.obtenerEstadisticas(), "Estadísticas del dashboard"));
     }
 }

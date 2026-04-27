@@ -1,16 +1,12 @@
 package com.cibertec.proyecto.services;
 
 import com.cibertec.proyecto.enums.EstadoDeuda;
-import com.cibertec.proyecto.repositories.DeudaRepository;
-import com.cibertec.proyecto.repositories.PagoRepository;
-import com.cibertec.proyecto.repositories.SocioRepository;
+import com.cibertec.proyecto.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.*;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,22 +18,16 @@ public class DashboardService {
 
     public Map<String, Object> obtenerEstadisticas() {
         Map<String, Object> stats = new HashMap<>();
-
-        // Total Socios
         stats.put("totalSocios", socioRepository.count());
-
-        // Deudas Pendientes
         stats.put("cantidadDeudasPendientes", deudaRepository.countByEstado(EstadoDeuda.PENDIENTE));
+
         Double montoPendiente = deudaRepository.sumMontoByEstado(EstadoDeuda.PENDIENTE);
         stats.put("montoTotalPendiente", montoPendiente != null ? montoPendiente : 0.0);
 
-        // Recaudación del día
         LocalDate hoy = LocalDate.now();
-        LocalDateTime inicio = hoy.atStartOfDay();
-        LocalDateTime fin = hoy.plusDays(1).atStartOfDay();
-        Double totalHoy = pagoRepository.totalPagosEnRango(inicio, fin);
-        stats.put("recaudacionHoy", totalHoy != null ? totalHoy : 0.0);
-
+        Double recaudadoHoy = pagoRepository.totalPagosEnRango(
+                hoy.atStartOfDay(), hoy.plusDays(1).atStartOfDay());
+        stats.put("recaudacionHoy", recaudadoHoy != null ? recaudadoHoy : 0.0);
         return stats;
     }
 }

@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
   template: `
-    <div class="container">
+    <div class="container" *ngIf="api.estaAutenticado(); else soloContenido">
       <aside class="sidebar">
         <div class="brand-box">
           <div class="brand-icon">M</div>
-
           <div class="brand-text">
             <h1>Mercado</h1>
             <span>Gestión de Pagos</span>
@@ -18,34 +20,26 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
         </div>
 
         <nav class="sidebar-menu">
-          <a routerLink="/socios" routerLinkActive="active" class="nav-link">
-            <span class="nav-icon">👥</span>
-            <span>Socios</span>
+          <a routerLink="/socios"   routerLinkActive="active" class="nav-link">
+            <span class="nav-icon">👥</span><span>Socios</span>
           </a>
-
-          <a routerLink="/puestos" routerLinkActive="active" class="nav-link">
-            <span class="nav-icon">🏪</span>
-            <span>Puestos</span>
+          <a routerLink="/puestos"  routerLinkActive="active" class="nav-link">
+            <span class="nav-icon">🏪</span><span>Puestos</span>
           </a>
-
-          <a routerLink="/deudas" routerLinkActive="active" class="nav-link">
-            <span class="nav-icon">💲</span>
-            <span>Generar Deudas</span>
+          <a routerLink="/deudas"   routerLinkActive="active" class="nav-link">
+            <span class="nav-icon">💲</span><span>Generar Deudas</span>
           </a>
-
           <a routerLink="/cobranza" routerLinkActive="active" class="nav-link">
-            <span class="nav-icon">💰</span>
-            <span>Cobranza</span>
+            <span class="nav-icon">💰</span><span>Cobranza</span>
           </a>
-
           <a routerLink="/reportes" routerLinkActive="active" class="nav-link">
-            <span class="nav-icon">📊</span>
-            <span>Reportes</span>
+            <span class="nav-icon">📊</span><span>Reportes</span>
           </a>
         </nav>
 
         <div class="sidebar-footer">
-          <span>Sistema Web</span>
+          <span>Usuario: {{ api.getUsername() }}</span>
+          <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
           <strong>DAWI - Cibertec</strong>
         </div>
       </aside>
@@ -54,7 +48,19 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
         <router-outlet></router-outlet>
       </main>
     </div>
+
+    <!-- Si no está autenticado, solo muestra el router-outlet (login) -->
+    <ng-template #soloContenido>
+      <router-outlet></router-outlet>
+    </ng-template>
   `,
   styleUrl: './app.component.css'
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(public api: ApiService, private router: Router) {}
+
+  logout() {
+    this.api.logout();
+    this.router.navigate(['/login']);
+  }
+}

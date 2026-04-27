@@ -1,18 +1,19 @@
 package com.cibertec.proyecto.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PuestoDTO {
 
-    // Formato (Letras y Números) ej: A01, B02, 101
     @NotBlank(message = "El número de puesto es obligatorio")
-    @Pattern(regexp = "^[A-Z0-9]{2,5}$", message = "Use de 2 a 5 letras o números (ejm: A01, B02)")
+    @Size(min = 2, max = 10, message = "El número debe tener entre 2 y 10 caracteres")
     private String numero;
 
+    @Size(max = 200)
     private String descripcion;
 
-    private Long socioId; // opcional
+    private Long socioId;
 }

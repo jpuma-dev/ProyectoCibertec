@@ -1,13 +1,9 @@
 package com.cibertec.proyecto.entities;
 
 import com.cibertec.proyecto.enums.EstadoDeuda;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,8 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
 public class Deuda {
 
     @Id
@@ -33,9 +27,10 @@ public class Deuda {
     private LocalDate fecha;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private EstadoDeuda estado;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "deuda_puesto",
             joinColumns = @JoinColumn(name = "deuda_id"),
@@ -43,11 +38,11 @@ public class Deuda {
     )
     private List<Puesto> puestos;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "concepto_id")
     private ConceptoDeuda concepto;
 
-    @com.fasterxml.jackson.annotation.JsonIgnore
-    @OneToMany(mappedBy = "deuda")
+    @JsonIgnore
+    @OneToMany(mappedBy = "deuda", fetch = FetchType.LAZY)
     private List<Pago> pagos;
 }

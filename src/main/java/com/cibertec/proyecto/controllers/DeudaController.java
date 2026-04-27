@@ -1,8 +1,6 @@
 package com.cibertec.proyecto.controllers;
 
-import com.cibertec.proyecto.dtos.ApiResponse;
-import com.cibertec.proyecto.dtos.DeudaDTO;
-import com.cibertec.proyecto.dtos.DeudaResponseDTO;
+import com.cibertec.proyecto.dtos.*;
 import com.cibertec.proyecto.services.DeudaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +23,7 @@ public class DeudaController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<DeudaResponseDTO>> crear(@Valid @RequestBody DeudaDTO dto) {
-        DeudaResponseDTO response = deudaService.crearDeuda(dto);
-        return ResponseEntity.ok(ApiResponse.success(response, "Deuda creada exitosamente"));
+        return ResponseEntity.ok(ApiResponse.success(deudaService.crearDeuda(dto), "Deuda creada exitosamente"));
     }
 
     @PostMapping("/generar-masiva")
