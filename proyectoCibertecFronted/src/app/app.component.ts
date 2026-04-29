@@ -28,6 +28,11 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
             <span>Puestos</span>
           </a>
 
+          <a routerLink="/conceptos" routerLinkActive="active" class="nav-link">
+            <span class="nav-icon">📌</span>
+            <span>Conceptos</span>
+          </a>
+
           <a routerLink="/deudas" routerLinkActive="active" class="nav-link">
             <span class="nav-icon">💲</span>
             <span>Generar Deudas</span>

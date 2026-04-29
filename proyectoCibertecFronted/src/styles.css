@@ -1467,3 +1467,291 @@ tr:hover {
     align-items: flex-start;
   }
 }
+
+
+/* =========================
+   PÁGINA: CONCEPTOS DE COBRO
+========================= */
+
+.conceptos-page {
+  width: 100%;
+}
+
+.conceptos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.conceptos-header h1 {
+  margin: 0;
+  font-size: 2.3rem;
+  font-weight: 900;
+  letter-spacing: -0.7px;
+  color: #020617;
+}
+
+.conceptos-header p {
+  margin: 0.6rem 0 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 720px;
+}
+
+.conceptos-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.concepto-stat-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.concepto-stat-card span {
+  display: block;
+  color: #475569;
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+}
+
+.concepto-stat-card strong {
+  display: block;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #111827;
+}
+
+.concepto-stat-card.blue {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.concepto-stat-card.green {
+  background: #ecfdf5;
+  border-color: #86efac;
+}
+
+.concepto-stat-card.orange {
+  background: #fffbeb;
+  border-color: #fcd34d;
+}
+
+.concepto-stat-card.purple {
+  background: #f5f3ff;
+  border-color: #c4b5fd;
+}
+
+/* Layout normal: formulario + tabla */
+.conceptos-layout {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Corrección principal:
+   Cuando el formulario está oculto, la tabla ocupa todo el ancho */
+.conceptos-layout.full-width {
+  grid-template-columns: 1fr;
+}
+
+.conceptos-layout.full-width .conceptos-table-card {
+  grid-column: 1 / -1;
+}
+
+.concepto-form-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+}
+
+.concepto-form-card h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #111827;
+}
+
+.concepto-form-card p {
+  margin: 0.4rem 0 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+  outline: none;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #ffffff;
+  resize: vertical;
+  transition: 0.2s ease;
+}
+
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.conceptos-table-card {
+  width: 100%;
+  max-width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+  overflow: hidden;
+}
+
+.conceptos-table-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eef2f7;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.conceptos-table-header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #111827;
+}
+
+.conceptos-table-header p {
+  margin: 0.35rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.conceptos-tools {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.conceptos-tools input {
+  min-width: 260px;
+}
+
+.conceptos-tools select {
+  min-width: 170px;
+}
+
+/* Contenedor para evitar que la tabla rompa el diseño */
+.conceptos-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Tabla propia de Conceptos */
+.conceptos-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+.conceptos-table th {
+  background: #f1f5f9;
+  text-align: left;
+  padding: 0.95rem;
+  color: #64748b;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.conceptos-table td {
+  padding: 1rem 0.95rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.conceptos-table tr:hover {
+  background: #f8fafc;
+}
+
+.concepto-name-cell strong {
+  display: block;
+  color: #111827;
+  font-weight: 900;
+}
+
+.concepto-name-cell span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  margin-top: 0.25rem;
+}
+
+.concepto-descripcion {
+  max-width: 420px;
+  color: #334155;
+  line-height: 1.45;
+}
+
+.concepto-monto {
+  font-weight: 900;
+  color: #111827;
+  white-space: nowrap;
+}
+
+.concepto-actions {
+  display: flex;
+  gap: 0.6rem;
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .conceptos-layout,
+  .conceptos-layout.full-width {
+    grid-template-columns: 1fr;
+  }
+
+  .conceptos-stats {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+
+  .conceptos-table-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .conceptos-tools {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .conceptos-tools input,
+  .conceptos-tools select {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .conceptos-header {
+    flex-direction: column;
+  }
+
+  .conceptos-stats {
+    grid-template-columns: 1fr;
+  }
+}
