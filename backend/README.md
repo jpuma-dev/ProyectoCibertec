@@ -1,4 +1,4 @@
-# Backend Proyecto Cibertec - Mercado
+# Backend - Sistema Web de Gestión de Pagos y Cobranza para un Mercado
 
 Backend Spring Boot para administrar socios, puestos, conceptos de deuda, deudas,
 pagos y reportes del sistema de mercado.
@@ -106,8 +106,5 @@ target/
 - `GET /api/reportes/morosidad`: reporte de morosidad.
 - `GET /api/reportes/deudas/export/excel`: exportacion Excel de deudas.
 
-Para pruebas manuales mas detalladas, revisa:
-
-```text
-docs/PRUEBAS.md
-```
+La documentacion general de instalacion y ejecucion se encuentra en el
+`README.md` de la raiz del repositorio.
