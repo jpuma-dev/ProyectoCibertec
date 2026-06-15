@@ -1,0 +1,159 @@
+
+                                 .container {
+                                     display: flex;
+                                     min-height: 100vh;
+                                     background: #f8fafc;
+                                 }
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 280px;
+    min-height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    padding: 1.75rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+}
+
+.brand-box {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.5rem 0.6rem 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.brand-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+    color: white;
+    font-size: 1.35rem;
+    font-weight: 900;
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+}
+
+.brand-text h1 {
+    margin: 0;
+    color: #020617;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+}
+
+.brand-text span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-top: 0.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.95rem 1rem;
+    color: #334155;
+    text-decoration: none;
+    border-radius: 0.9rem;
+    font-size: 0.98rem;
+    font-weight: 750;
+    transition: all 0.2s ease;
+}
+
+.nav-icon {
+    width: 28px;
+    text-align: center;
+    font-size: 1.15rem;
+}
+
+.nav-link:hover {
+    background: #eff6ff;
+    color: #2563eb;
+    transform: translateX(3px);
+}
+
+.nav-link.active {
+    background: #eaf2ff;
+    color: #2563eb;
+    box-shadow: inset 4px 0 0 #2563eb;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.sidebar-footer span {
+    display: block;
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.sidebar-footer strong {
+    display: block;
+    margin-top: 0.25rem;
+    color: #0f172a;
+    font-size: 0.92rem;
+}
+
+/* =========================
+   CONTENIDO PRINCIPAL
+========================= */
+
+.main-content {
+    flex: 1;
+    padding: 2rem 2.5rem;
+    background: #f8fafc;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+        position: static;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .sidebar-footer {
+        display: none;
+    }
+
+    .main-content {
+        padding: 1.25rem;
+    }
+}
