@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mercado | Gesti&#243;n de Pagos</title>
+    <meta name="description" content="Sistema Mercado para gesti&#243;n de pagos, socios, puestos, deudas y reportes.">
+    <link rel="icon" href="/assets/mercado-mark.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Mercado Gesti&#243;n de Pagos">
+        <img src="/assets/mercado-logo.svg" alt="Mercado Gesti&#243;n de Pagos">
+      </a>
+      <nav class="nav" aria-label="M&#243;dulos principales">
+        <a href="/api/dashboard/stats">Dashboard</a>
+        <a href="/api/socios">Socios</a>
+        <a href="/api/pagos">Pagos</a>
+        <a href="/api/reportes/morosidad">Reportes</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Plataforma administrativa</p>
+          <h1 id="page-title">Control de pagos, deudas y socios en una sola operaci&#243;n.</h1>
+          <p class="lead">
+            Mercado centraliza la gesti&#243;n de socios, puestos, conceptos de deuda,
+            pagos registrados y reportes financieros para una operaci&#243;n ordenada.
+          </p>
+          <div class="actions" aria-label="Accesos r&#225;pidos">
+            <a class="button primary" href="/api/dashboard/stats">Ver estado del sistema</a>
+            <a class="button secondary" href="/api/reportes/deudas/export/excel">Exportar deudas</a>
+          </div>
+        </div>
+
+        <div class="summary" aria-label="Resumen visual de Mercado">
+          <div class="summary-header">
+            <img src="/assets/mercado-mark.svg" alt="" aria-hidden="true">
+            <div>
+              <span class="summary-title">Mercado API</span>
+              <span class="summary-subtitle">Servicio activo en puerto 8080</span>
+            </div>
+          </div>
+          <dl class="metrics">
+            <div>
+              <dt>M&#243;dulos</dt>
+              <dd>7</dd>
+            </div>
+            <div>
+              <dt>Reportes</dt>
+              <dd>Excel</dd>
+            </div>
+            <div>
+              <dt>Estado</dt>
+              <dd>REST</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="modules" aria-labelledby="modules-title">
+        <div class="section-heading">
+          <p class="eyebrow">Endpoints disponibles</p>
+          <h2 id="modules-title">M&#243;dulos del sistema</h2>
+        </div>
+
+        <div class="module-grid">
+          <a class="module-card" href="/api/socios">
+            <span class="module-icon">S</span>
+            <strong>Socios</strong>
+            <span>Registro, b&#250;squeda, paginaci&#243;n y actualizaci&#243;n de socios.</span>
+          </a>
+          <a class="module-card" href="/api/puestos">
+            <span class="module-icon">P</span>
+            <strong>Puestos</strong>
+            <span>Administraci&#243;n de puestos, disponibilidad y asignaci&#243;n.</span>
+          </a>
+          <a class="module-card" href="/api/deudas">
+            <span class="module-icon">D</span>
+            <strong>Deudas</strong>
+            <span>Creaci&#243;n, resumen y generaci&#243;n masiva de obligaciones.</span>
+          </a>
+          <a class="module-card" href="/api/pagos">
+            <span class="module-icon">C</span>
+            <strong>Pagos</strong>
+            <span>Control de pagos, flujo de caja diario y consultas por deuda.</span>
+          </a>
+          <a class="module-card" href="/api/conceptos-deuda">
+            <span class="module-icon">M</span>
+            <strong>Conceptos</strong>
+            <span>Cat&#225;logo de conceptos de deuda para la gesti&#243;n operativa.</span>
+          </a>
+          <a class="module-card" href="/api/reportes/morosidad">
+            <span class="module-icon">R</span>
+            <strong>Reportes</strong>
+            <span>Morosidad, deudas por socio y exportaciones en Excel.</span>
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

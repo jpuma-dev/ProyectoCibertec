@@ -1,0 +1,39 @@
+<svg width="620" height="160" viewBox="0 0 620 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mercadoTitle mercadoDesc">
+  <title id="mercadoTitle">Mercado - Gesti&#243;n de Pagos</title>
+  <desc id="mercadoDesc">Identidad visual profesional para Mercado Gesti&#243;n de Pagos.</desc>
+  <defs>
+    <linearGradient id="mercadoMark" x1="30" y1="26" x2="132" y2="136" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="0.45" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#0F2F76"/>
+    </linearGradient>
+    <linearGradient id="mercadoAccent" x1="50" y1="112" x2="121" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2DD4BF"/>
+      <stop offset="1" stop-color="#A7F3D0"/>
+    </linearGradient>
+    <filter id="markDepth" x="12" y="12" width="148" height="148" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="10"/>
+      <feGaussianBlur stdDeviation="12"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.03 0 0 0 0 0.12 0 0 0 0 0.30 0 0 0 0.18 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#markDepth)">
+    <rect x="28" y="24" width="112" height="112" rx="30" fill="url(#mercadoMark)"/>
+    <path d="M52 106V55H67L84 80.2L101 55H116V106H100V81.8L88.6 98.6H79.4L68 81.8V106H52Z" fill="#FFFFFF"/>
+    <path d="M49 116H111C117.6 116 123 110.6 123 104V96" stroke="url(#mercadoAccent)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M102 48H118C124.1 48 129 52.9 129 59V73" stroke="#D8FBFF" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="113" cy="94" r="4.5" fill="#D8FBFF"/>
+  </g>
+
+  <g>
+    <text x="174" y="78" fill="#07162F" font-family="Inter, Manrope, Segoe UI, Arial, sans-serif" font-size="48" font-weight="850" letter-spacing="0">Mercado</text>
+    <text x="176" y="113" fill="#4B6380" font-family="Inter, Manrope, Segoe UI, Arial, sans-serif" font-size="21" font-weight="500" letter-spacing="0">Gesti&#243;n de Pagos</text>
+    <rect x="176" y="123" width="152" height="4" rx="2" fill="url(#mercadoAccent)"/>
+  </g>
+</svg>

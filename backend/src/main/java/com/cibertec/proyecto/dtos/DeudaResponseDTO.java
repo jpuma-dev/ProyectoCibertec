@@ -1,0 +1,20 @@
+package com.cibertec.proyecto.dtos;
+
+import com.cibertec.proyecto.enums.EstadoDeuda;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
+public class DeudaResponseDTO {
+    private Long id;
+    private Double monto;
+    private LocalDate fecha;
+    private EstadoDeuda estado;
+    private Long conceptoId;
+    private String conceptoNombre;
+    private List<String> puestoNumeros;
+    private List<Long> puestoIds;
+    private List<String> socioNombres;
+}
