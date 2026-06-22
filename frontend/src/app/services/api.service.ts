@@ -113,6 +113,11 @@ export class ApiService {
   // REPORTES
   // =========================
 
+  getDashboardStats(): Observable<any> {
+    return this.http.get<any>(`${this.url}/dashboard/stats`)
+        .pipe(map(res => res.data));
+  }
+
   getReporteCaja(): Observable<any> {
     return this.http.get<any>(`${this.url}/reportes/flujo-caja-diario`)
         .pipe(map(res => res.data));
