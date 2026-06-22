@@ -3,102 +3,179 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mercado | Gesti&#243;n de Pagos</title>
-    <meta name="description" content="Sistema Mercado para gesti&#243;n de pagos, socios, puestos, deudas y reportes.">
+    <title>Mercado | Centro de mando</title>
+    <meta name="description" content="Dashboard operativo para gestion de pagos, socios, puestos y deudas.">
     <link rel="icon" href="/assets/mercado-mark.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css">
+    <script src="/dashboard.js" defer></script>
   </head>
   <body>
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Mercado Gesti&#243;n de Pagos">
-        <img src="/assets/mercado-logo.svg" alt="Mercado Gesti&#243;n de Pagos">
+      <a class="brand" href="/" aria-label="Mercado Gestion de Pagos">
+        <img src="/assets/mercado-mark.svg" alt="" aria-hidden="true">
+        <span>
+          <strong>Mercado</strong>
+          <small>Gestion de Pagos</small>
+        </span>
       </a>
-      <nav class="nav" aria-label="M&#243;dulos principales">
-        <a href="/api/dashboard/stats">Dashboard</a>
+
+      <nav class="nav" aria-label="Modulos principales">
+        <a href="/api/dashboard/stats" class="is-active">Dashboard</a>
         <a href="/api/socios">Socios</a>
+        <a href="/api/puestos">Puestos</a>
         <a href="/api/pagos">Pagos</a>
-        <a href="/api/reportes/morosidad">Reportes</a>
       </nav>
+
+      <div class="system-pill" aria-label="Estado del sistema">
+        <span class="pulse" aria-hidden="true"></span>
+        <span id="connection-status">Sincronizando</span>
+      </div>
     </header>
 
-    <main>
-      <section class="hero" aria-labelledby="page-title">
-        <div class="hero-copy">
-          <p class="eyebrow">Plataforma administrativa</p>
-          <h1 id="page-title">Control de pagos, deudas y socios en una sola operaci&#243;n.</h1>
+    <main class="dashboard-shell">
+      <section class="command" aria-labelledby="page-title">
+        <div class="command-copy">
+          <p class="eyebrow">Operaciones / Mercado</p>
+          <h1 id="page-title">Centro de mando financiero</h1>
           <p class="lead">
-            Mercado centraliza la gesti&#243;n de socios, puestos, conceptos de deuda,
-            pagos registrados y reportes financieros para una operaci&#243;n ordenada.
+            Lectura rapida de cobranza, ocupacion, morosidad y flujo diario para tomar decisiones sin salir del panel.
           </p>
-          <div class="actions" aria-label="Accesos r&#225;pidos">
-            <a class="button primary" href="/api/dashboard/stats">Ver estado del sistema</a>
-            <a class="button secondary" href="/api/reportes/deudas/export/excel">Exportar deudas</a>
+          <div class="actions" aria-label="Accesos rapidos">
+            <a class="button primary" href="/api/pagos">Registrar pago</a>
+            <a class="button ghost" href="/api/reportes/deudas/export/excel">Exportar Excel</a>
           </div>
         </div>
 
-        <div class="summary" aria-label="Resumen visual de Mercado">
-          <div class="summary-header">
-            <img src="/assets/mercado-mark.svg" alt="" aria-hidden="true">
+        <div class="signal-panel" aria-label="Resumen de recaudacion">
+          <div class="panel-head">
+            <span>Recaudacion de hoy</span>
+            <strong id="today-label">Hoy</strong>
+          </div>
+          <strong class="hero-number" data-money="recaudacionHoy">S/ 0.00</strong>
+          <div class="signal-track" aria-hidden="true">
+            <span class="track-line"></span>
+            <span class="track-node"></span>
+            <span class="track-node is-hot"></span>
+            <span class="track-node"></span>
+          </div>
+          <div class="mini-grid">
             <div>
-              <span class="summary-title">Mercado API</span>
-              <span class="summary-subtitle">Servicio activo en puerto 8080</span>
+              <span>Pendiente</span>
+              <strong data-money="montoTotalPendiente">S/ 0.00</strong>
+            </div>
+            <div>
+              <span>Vencido</span>
+              <strong data-money="montoTotalVencido">S/ 0.00</strong>
             </div>
           </div>
-          <dl class="metrics">
-            <div>
-              <dt>M&#243;dulos</dt>
-              <dd>7</dd>
-            </div>
-            <div>
-              <dt>Reportes</dt>
-              <dd>Excel</dd>
-            </div>
-            <div>
-              <dt>Estado</dt>
-              <dd>REST</dd>
-            </div>
-          </dl>
         </div>
       </section>
 
-      <section class="modules" aria-labelledby="modules-title">
-        <div class="section-heading">
-          <p class="eyebrow">Endpoints disponibles</p>
-          <h2 id="modules-title">M&#243;dulos del sistema</h2>
-        </div>
+      <section class="kpi-grid" aria-label="Indicadores principales">
+        <article class="kpi is-green">
+          <span class="kpi-label">Socios activos</span>
+          <strong data-number="totalSocios">0</strong>
+          <span class="kpi-detail">Base operativa registrada</span>
+        </article>
+        <article class="kpi is-cyan">
+          <span class="kpi-label">Ocupacion</span>
+          <strong id="occupancy-value">0%</strong>
+          <span class="kpi-detail"><span data-number="puestosOcupados">0</span> de <span data-number="totalPuestos">0</span> puestos</span>
+        </article>
+        <article class="kpi is-amber">
+          <span class="kpi-label">Deudas pendientes</span>
+          <strong data-number="cantidadDeudasPendientes">0</strong>
+          <span class="kpi-detail">Casos abiertos</span>
+        </article>
+        <article class="kpi is-rose">
+          <span class="kpi-label">Deudas vencidas</span>
+          <strong data-number="cantidadDeudasVencidas">0</strong>
+          <span class="kpi-detail">Atencion prioritaria</span>
+        </article>
+      </section>
 
-        <div class="module-grid">
-          <a class="module-card" href="/api/socios">
-            <span class="module-icon">S</span>
-            <strong>Socios</strong>
-            <span>Registro, b&#250;squeda, paginaci&#243;n y actualizaci&#243;n de socios.</span>
-          </a>
-          <a class="module-card" href="/api/puestos">
-            <span class="module-icon">P</span>
-            <strong>Puestos</strong>
-            <span>Administraci&#243;n de puestos, disponibilidad y asignaci&#243;n.</span>
-          </a>
-          <a class="module-card" href="/api/deudas">
-            <span class="module-icon">D</span>
-            <strong>Deudas</strong>
-            <span>Creaci&#243;n, resumen y generaci&#243;n masiva de obligaciones.</span>
-          </a>
-          <a class="module-card" href="/api/pagos">
-            <span class="module-icon">C</span>
-            <strong>Pagos</strong>
-            <span>Control de pagos, flujo de caja diario y consultas por deuda.</span>
-          </a>
-          <a class="module-card" href="/api/conceptos-deuda">
-            <span class="module-icon">M</span>
-            <strong>Conceptos</strong>
-            <span>Cat&#225;logo de conceptos de deuda para la gesti&#243;n operativa.</span>
-          </a>
-          <a class="module-card" href="/api/reportes/morosidad">
-            <span class="module-icon">R</span>
-            <strong>Reportes</strong>
-            <span>Morosidad, deudas por socio y exportaciones en Excel.</span>
-          </a>
-        </div>
+      <section class="operations-grid">
+        <article class="risk-panel" aria-labelledby="risk-title">
+          <div class="section-heading">
+            <p class="eyebrow">Riesgo</p>
+            <h2 id="risk-title">Pulso de cobranza</h2>
+          </div>
+
+          <div class="risk-meter" style="--risk: 0%">
+            <div class="risk-ring" aria-hidden="true"></div>
+            <div class="risk-value">
+              <strong id="risk-percent">0%</strong>
+              <span>vencido</span>
+            </div>
+          </div>
+
+          <dl class="stacked-stats">
+            <div>
+              <dt>Pagadas</dt>
+              <dd data-number="cantidadDeudasPagadas">0</dd>
+            </div>
+            <div>
+              <dt>Conceptos</dt>
+              <dd data-number="totalConceptos">0</dd>
+            </div>
+            <div>
+              <dt>Disponibles</dt>
+              <dd data-number="puestosDisponibles">0</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="flow-panel" aria-labelledby="flow-title">
+          <div class="section-heading">
+            <p class="eyebrow">Flujo</p>
+            <h2 id="flow-title">Lectura semanal</h2>
+          </div>
+
+          <div class="bar-chart" aria-hidden="true">
+            <span style="--h: 46%"></span>
+            <span style="--h: 68%"></span>
+            <span style="--h: 54%"></span>
+            <span style="--h: 78%"></span>
+            <span style="--h: 64%"></span>
+            <span style="--h: 88%"></span>
+            <span style="--h: 58%"></span>
+          </div>
+
+          <div class="cashline">
+            <span>Liquidez observada</span>
+            <strong id="liquidity-status">Esperando datos</strong>
+          </div>
+        </article>
+
+        <article class="module-panel" aria-labelledby="modules-title">
+          <div class="section-heading">
+            <p class="eyebrow">Accion</p>
+            <h2 id="modules-title">Modulos</h2>
+          </div>
+
+          <div class="module-grid">
+            <a class="module-card" href="/api/socios">
+              <span>S</span>
+              <strong>Socios</strong>
+            </a>
+            <a class="module-card" href="/api/puestos">
+              <span>P</span>
+              <strong>Puestos</strong>
+            </a>
+            <a class="module-card" href="/api/deudas">
+              <span>D</span>
+              <strong>Deudas</strong>
+            </a>
+            <a class="module-card" href="/api/pagos">
+              <span>C</span>
+              <strong>Pagos</strong>
+            </a>
+            <a class="module-card" href="/api/conceptos-deuda">
+              <span>M</span>
+              <strong>Conceptos</strong>
+            </a>
+          </div>
+        </article>
       </section>
     </main>
   </body>
